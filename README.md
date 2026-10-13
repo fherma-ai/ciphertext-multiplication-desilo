@@ -21,9 +21,20 @@ slots:
 
 | | `solution-s32768-d10` | `solution-s4096-d20` |
 | --- | --- | --- |
-| `max_level` | 10 | 20 |
-| `slot_count` | 32768 | 4096 |
+| sized by | the ring | the ladder |
+| `log_coeff_count` | 16 | — |
+| `log_slot_count` | 15 | — |
+| `special_prime_count` | 2 | — |
+| `max_level` | — | 20 |
+| `slot_count` | — | 4096 |
 | `mode` / `thread_count` | parallel / every core | parallel / every core |
+
+The two points are sized by different groups because the library refuses the
+other way round. Asked for 32768 slots at `max_level` 10 it answers *The
+given slot count is too large*: it picks the ring from the ladder, and ten
+levels do not reach a ring that holds 32768 slots. The wide point therefore
+names the ring and lets the library fit the ladder into it, which is what the
+point wants in any case — the width is the question, the ring is the answer.
 
 The ring, the prime sizes and the special primes are the library's to choose,
 and it names no security level: nothing in this configuration refuses a set
@@ -31,7 +42,10 @@ that fails to reach 128 bits, where OpenFHE refuses one before the context is
 built. The point's `security` parameter is therefore attested differently
 here, and the board shows it as such.
 
-Because the config cannot state the ring, `init` prints what the engine
-reports — the coefficient count, the slot count, the ladder — so the achieved
-parameters are in the run's log beside the measurement rather than inferred
-from the slot count.
+Because the config cannot always state the ring, `init` prints what the
+engine reports. As of 1.17.0 that is a slot count and a ladder and nothing
+else: the ring is not on the engine's surface, so for the row sized by the
+ladder it can only be inferred — twenty levels at this library's prime sizes
+do not fit a ring below 65536 at any security level worth the name. `init`
+also prints the engine's public attributes, so the next version is checked
+against the record rather than against memory.

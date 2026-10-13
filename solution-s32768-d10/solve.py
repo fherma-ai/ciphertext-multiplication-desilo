@@ -30,6 +30,11 @@ def init(p: Point, cc):
     print(f"engine: {', '.join(said) or type(cc.engine).__name__}", flush=True)
     print(f"point: slots={p.slots} depth={p.depth} security={p.security} "
           f"precision={p.precision}", flush=True)
+    # Whether the ring is knowable at all: the engine reports a slot count and
+    # a ladder, and the board cannot derive a ring from a slot count when the
+    # packing is sparse. Printed once so the surface is on the record.
+    print("engine attributes:", ", ".join(
+        name for name in dir(cc.engine) if not name.startswith("_")), flush=True)
     return None
 
 

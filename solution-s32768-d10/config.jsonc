@@ -19,13 +19,18 @@
   // One multiplication needs one key.
   "keys": ["relinearization"],
 
-  // The point's depth and width. DESILO sizes the engine from these two.
-  "max_level": 10,
-  "slot_count": 32768,
+  // Sized by the ring, not by the ladder, and the reason is the library's:
+  // asked for 32768 slots at max_level 10 it answers "The given slot count is
+  // too large" — it picks the ring from the ladder, and ten levels do not
+  // reach a ring that holds 32768 slots. So the ring is named here and the
+  // ladder is what the library fits into it, which is what this point wants
+  // in any case: the width is the question and the ring is the answer.
+  "log_coeff_count": 16,
+  "log_slot_count": 15,
+  "special_prime_count": 2,
 
-  "log_coeff_count": null,
-  "special_prime_count": null,
-  "log_slot_count": null,
+  "max_level": null,
+  "slot_count": null,
   "use_bootstrap": false,
   "fixed_rotation_deltas": [],
   "shape": null
