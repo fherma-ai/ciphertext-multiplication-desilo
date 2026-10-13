@@ -1,0 +1,7 @@
+kind = "solution"
+spec = "ciphertext-multiplication/ckks@1.0.0"
+
+[fhe]
+library = "desilo"
+library_version = "1.17.0"
+scheme = "ckks"

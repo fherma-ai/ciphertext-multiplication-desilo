@@ -1,0 +1,32 @@
+// Point s32768-d10: slots 32768, depth 10, security 128, precision 15.
+//
+// DESILO is sized by its ladder and its slots and picks the ring itself, so
+// this is the point restated in the library's own terms and nothing more.
+// The ring it chooses is printed by init, because the config cannot say it.
+{
+  "scheme": "ckks",
+
+  // The host across every core the runner reports, as the OpenFHE rows take
+  // the machine. 0 is the machine; the library's own default is four, which
+  // would measure the default rather than the library.
+  "mode": "parallel",
+  "thread_count": 0,
+  "device_id": 0,
+
+  // Fresh ciphertexts at the top of the ladder.
+  "encrypt_level": null,
+
+  // One multiplication needs one key.
+  "keys": ["relinearization"],
+
+  // The point's depth and width. DESILO sizes the engine from these two.
+  "max_level": 10,
+  "slot_count": 32768,
+
+  "log_coeff_count": null,
+  "special_prime_count": null,
+  "log_slot_count": null,
+  "use_bootstrap": false,
+  "fixed_rotation_deltas": [],
+  "shape": null
+}
