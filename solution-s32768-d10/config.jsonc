@@ -13,8 +13,16 @@
   "thread_count": 0,
   "device_id": 0,
 
-  // Fresh ciphertexts at the top of the ladder.
-  "encrypt_level": null,
+  // The point's depth, and not the top of the ladder.
+  //
+  // Sizing by the ring gives whatever ladder fits it: at log_coeff_count 16
+  // the library builds 39 levels, and a ciphertext encrypted at the top of
+  // that carries 40 residue polynomials where this point asks for 11. The
+  // cost of one multiplication is set by the operands' level, so the answer
+  // to a depth-10 point starts at level 10. The ladder behind it stays
+  // longer than the point needs, which the measurement cannot help; the
+  // key-switching decomposition is sized for the whole chain.
+  "encrypt_level": 10,
 
   // One multiplication needs one key.
   "keys": ["relinearization"],

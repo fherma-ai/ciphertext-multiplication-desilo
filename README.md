@@ -25,6 +25,7 @@ slots:
 | `log_coeff_count` | 16 | — |
 | `log_slot_count` | 15 | — |
 | `special_prime_count` | 2 | — |
+| `encrypt_level` | 10 | top of the ladder (20) |
 | `max_level` | — | 20 |
 | `slot_count` | — | 4096 |
 | `mode` / `thread_count` | parallel / every core | parallel / every core |
@@ -35,6 +36,17 @@ given slot count is too large*: it picks the ring from the ladder, and ten
 levels do not reach a ring that holds 32768 slots. The wide point therefore
 names the ring and lets the library fit the ladder into it, which is what the
 point wants in any case — the width is the question, the ring is the answer.
+
+Sizing by the ring has a consequence the point has to answer for: at
+`log_coeff_count` 16 the library builds a ladder of 39 levels, and a
+ciphertext encrypted at the top of it carries 40 residue polynomials where
+the point asks for 11. Measured that way the row read 224 ms against the
+OpenFHE row's 39 — a comparison of ladders, not of libraries. So the wide
+answer sets `encrypt_level` to the point's depth and its operands carry 11
+limbs, as every other answer to this point does. What cannot be matched is
+the chain behind them: the key-switching decomposition is sized for the whole
+ladder, and this library gives no way to shorten one at a ring that holds
+32768 slots.
 
 The ring, the prime sizes and the special primes are the library's to choose,
 and it names no security level: nothing in this configuration refuses a set
